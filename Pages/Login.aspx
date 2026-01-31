@@ -16,11 +16,12 @@
          <asp:TextBox ID="textPassword" textmode="Password" runat="server" Required="required"/>
     </div>
 
-    <div class="form-group">
-         <asp:Button ID="bntcancel" Text="cancel" OnClick="btnCancel_Click" OnClientClick="this.form.reset(); return false;" runat="server" CssClass="btn" Style ="background:red;"/>
+    <div class="line">
+         <asp:Button ID="bntcancel" Text="cancel" OnClick="btnCancel_Click" OnClientClick="this.form.reset(); return false;" runat="server" CssClass="btn"/>
          <asp:Button ID="btnlogin" Text="Login" OnClick="btnLogin_Click" runat="server" CssClass="btn" />
         <br />
-        <asp:Label ID="lblError" runat="server" Text="" ForeColor="Red" Visible="false" CssClass="alert alert-danger"></asp:Label>
+        <br />
+        <asp:Label ID="lblError" runat="server" Text="" ForeColor="Red" Visible="false" CssClass="error"></asp:Label>
     </div>
     </form>
 </asp:Content>

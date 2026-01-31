@@ -18,9 +18,9 @@
     }
 
     $.validator.addMethod("checkDate", function (value, element) {
-        const day = parseInt($('#ddlDay')).val();
-        const month = parseInt($('#ddlMonth')).val();
-        const year = parseInt($('#ddlYear')).val();
+        const day = parseInt($('#ddlDay').val());
+        const month = parseInt($('#ddlMonth').val());
+        const year = parseInt($('#ddlYear').val());
 
         if (day === 0 || month === 0 || year === 0) return false;
         const date = new Date(year, month - 1, day);
@@ -28,42 +28,43 @@
     }, "Please choose a valid Date of Birth.");
 
     $('#ddlDay, #ddlMonth, #ddlYear').change(function () {
-             const day = parseInt($('#ddlDay').val());
-             const month = parseInt($('#ddlMonth').val());
-             const year = parseInt($('#ddlYear').val());
+        const day = parseInt($('#ddlDay').val());
+        const month = parseInt($('#ddlMonth').val());
+        const year = parseInt($('#ddlYear').val());
 
         if (day > 0 && month > 0 && year > 0) {
 
             const today = new Date();
             let dob = new Date(year, month - 1, day);
 
-        if (dob.getFullYear() === year && dob.getMonth() === month - 1) {
+            if (dob.getFullYear() === year && dob.getMonth() === month - 1) {
 
-            let age = today.getFullYear() - dob.getFullYear();
+                let age = today.getFullYear() - dob.getFullYear();
 
-             const m = today.getMonth() - dob.getMonth();
+                const m = today.getMonth() - dob.getMonth();
 
-            if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) {
-                age--;
+                if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) {
+                    age--;
 
+                }
+                $('#txtAge').val(age)
             }
-            $('#txtAge').val(age)
-        }
-        else{
-             $('#txtAge').val('');
+            else {
+                $('#txtAge').val('');
             }
         }
     });
 
 
 
-    $('#form2').validate({
-        errorClass: "error", 
+    let validate = $('#form2').validate({
+        errorClass: "error",
         errorElement: "span",
 
+
     });
 
-            
+
 
     $("#txtusername").rules("add", {
         required: true,
@@ -82,11 +83,11 @@
         messages: { equalTo: "Passwords do not match" }
     });
 
-    $("#fn").rules("add", { required: true, minlength:3, maxlength: 50 });
+    $("#fn").rules("add", { required: true, minlength: 3, maxlength: 50 });
     $("#ln").rules("add", { required: true, maxlength: 50 });
     $("#dn").rules("add", { maxlength: 50 });
 
-    $("#address").rules("add", { required: true, maxlength: 255 });
+    $("#address").rules("add", { required: true, minlength: 10, maxlength: 255 });
 
     $("#zip").rules("add", { required: true, digits: true, maxlength: 6, minlength: 6 });
     $("#phone").rules("add", { required: true, digits: true, maxlength: 10, minlength: 10 });
@@ -96,4 +97,8 @@
         checkDate: true,
         messages: { checkDate: "Please choose a valid Date of Birth." }
     });
+
+   
+
+
 });

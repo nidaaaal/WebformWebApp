@@ -12,12 +12,12 @@
 
                 <div class="form-group">
                     <label>Password</label>
-                    <asp:TextBox ID ="password" runat="server" ClientIDMode="Static"/>
+                    <asp:TextBox ID ="password"  TextMode="Password" runat="server" ClientIDMode="Static"/>
                 </div>
 
                 <div class="form-group">
                     <label>Confirm Password</label>
-                    <asp:TextBox ID ="cnfrmpass" runat="server" ClientIDMode="Static"/>
+                    <asp:TextBox ID ="cnfrmpass"  TextMode="Password" runat="server" ClientIDMode="Static"/>
                 </div>
 
                 <h3>Personal Information</h3>
@@ -105,9 +105,9 @@
             </div>
             <br/>
             <br/>
-            <div class="form-group">
-                <asp:Button ID="bntcancel" Text="Cancel" OnClick="btnCancel_Click" OnClientClick="this.form.reset(); return false;" runat="server" CssClass="btn" Style ="background:red;"/>
-                <asp:Button ID="btnSubmit" Text="Register" OnClick="btnSubmit_Click"  runat="server" CssClass="btn" />
+            <div class="line">
+                <asp:Button ID="bntcancel" Text="Cancel" OnClick="btnCancel_Click" OnClientClick="this.form.reset(); return false;" runat="server" CssClass="btn"/>
+                <asp:Button ID="btnSubmit" Text="Register" OnClick="btnSubmit_Click"  runat="server" CssClass="btn" OnClientClick="return $('#form2').valid();"/>
                 <br />
                 <br />
                 <asp:Label ID="lblError" runat="server" Text="" ForeColor="Red" Visible="false" CssClass="error"></asp:Label>

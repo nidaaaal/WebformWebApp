@@ -11,14 +11,22 @@ namespace MyWebApp
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (!IsPostBack)
-            {
-               
-            }
+          
         }
 
         protected void btnSubmit_Click(object sender,EventArgs e)
         {
+            if (string.IsNullOrWhiteSpace(txtusername.Text) ||
+         string.IsNullOrWhiteSpace(password.Text) ||
+         string.IsNullOrWhiteSpace(fn.Text) ||      
+         string.IsNullOrWhiteSpace(ln.Text) ||       
+         string.IsNullOrWhiteSpace(address.Text) ||
+         string.IsNullOrWhiteSpace(zip.Text) ||
+         string.IsNullOrWhiteSpace(phone.Text))
+            {
+                ShowError("Please fill all required fields.");
+                return;
+            }
             string securePass = BCrypt.Net.BCrypt.HashPassword(password.Text);
 
             var type = InputIdentifier.Identify(txtusername.Text);
