@@ -1,0 +1,27 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.Master.cs" Inherits="MyWebApp.MasterPages.Site1" %>
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+    <title>Booking App</title>
+    <link href="../Content/css/site.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
+    <script src="../Scripts/FormValidation.js"></script>
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+        <nav class="cn">
+          <a href="Dashboard.aspx" >  <img src="../Content/images/booking logo.png" class="logo"/> </a>
+          <a href="Login.aspx" class="btn">Login</a>
+          <a href="Register.aspx" class="btn">Register</a>
+       </nav>
+
+        <main class="container">
+            <asp:ContentPlaceHolder ID="MainContent" runat="server">
+            </asp:ContentPlaceHolder>
+        </main>
+</body>
+</html>

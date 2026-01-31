@@ -1,0 +1,117 @@
+﻿<%@ Page Language="C#" EnableEventValidation="false" AutoEventWireup="true" MasterPageFile="~/MasterPages/Site.Master" CodeBehind="Register.aspx.cs" Inherits="MyWebApp.Register" %>
+
+<asp:Content ID="reg" ContentPlaceHolderID="MainContent" runat="server">
+
+        <form id="form2" runat="server">
+                <h3>Create Your Account</h3>
+                
+                <div class="form-group">
+                    <label>Email / Phone</label>
+                    <asp:TextBox ID ="txtusername" runat="server" ClientIDMode="Static"/>
+                </div>
+
+                <div class="form-group">
+                    <label>Password</label>
+                    <asp:TextBox ID ="password" runat="server" ClientIDMode="Static"/>
+                </div>
+
+                <div class="form-group">
+                    <label>Confirm Password</label>
+                    <asp:TextBox ID ="cnfrmpass" runat="server" ClientIDMode="Static"/>
+                </div>
+
+                <h3>Personal Information</h3>
+                
+                <div class="form-group">
+                    <label>First Name</label>
+                    <asp:TextBox ID ="fn" runat="server" ClientIDMode="Static"/>
+                </div>
+
+                <div class="form-group">
+                    <label>Last Name</label>
+                    <asp:TextBox ID ="ln" runat="server" ClientIDMode="Static"/>
+                </div>
+
+                <div class="form-group">
+                    <label>Display Name</label>
+                    <asp:TextBox ID ="dn" runat="server"/>
+                  </div>
+
+                <div class="form-group">
+                  <label>Date Of Birth</label>
+                   <div class="line">
+                    <asp:dropdownlist ID="ddlDay" runat="server" ClientIDMode="Static">
+                        <asp:ListItem Text="Day" Value="0" />                   
+                    </asp:dropdownlist>
+                    <asp:dropdownlist ID="ddlMonth" runat="server" ClientIDMode="Static">
+                        <asp:ListItem Text="Month" Value="0" Selected="True"/>
+                    </asp:dropdownlist>
+                    <asp:dropdownlist ID="ddlYear" runat="server" ClientIDMode="Static">
+                        <asp:ListItem Text="year" Value="0" Selected="True"/>
+                    </asp:dropdownlist>
+                   </div>
+               </div>
+
+               <div class="form-group">
+                   <label>Age</label>
+                   <asp:TextBox ID="txtAge" runat="server" ClientIDMode="Static" onkeydown="return false;"/>
+              </div>
+
+              <div class="form-group">
+                   <label>Gender</label>
+                   <asp:RadioButtonList ID="rblGender" runat="server" ClientIDMode="Static" RepeatLayout="Flow" RepeatDirection="Horizontal">
+                     <asp:ListItem Text="Male" Value="M" Selected="True"></asp:ListItem>
+                     <asp:ListItem Text="Female" Value="F"></asp:ListItem>
+                   </asp:RadioButtonList>
+              </div>
+
+              <div class="form-group">
+                   <label>Address</label>
+                   <asp:TextBox ID ="address" TextMode="MultiLine" runat="server" ClientIDMode="Static"/>
+              </div>
+
+              <div class="form-group">
+                   <label>City</label>
+                   <asp:DropDownList ID="ddlCity" runat="server" CssClass="form-control" ClientIDMode="Static">
+                       <asp:ListItem Selected="True" Enabled="true" Text="calicut" Value="calicut"></asp:ListItem>
+                       <asp:ListItem  Enabled="true" Text="kochi" Value="kochi"> </asp:ListItem>
+                       <asp:ListItem Enabled="true" Text="madurai" Value="madurai"></asp:ListItem>
+                       <asp:ListItem  Enabled="true" Text="bangalur" Value="bangalur"></asp:ListItem>
+                   </asp:DropDownList>
+              </div>
+
+              <div class="form-group">
+                   <label>State</label>
+                   <asp:DropDownList ID="ddlState" runat="server" CssClass="form-control" ClientIDMode="Static">
+                      <asp:ListItem Selected="True" Enabled="true" Text="Kerala" Value="Kerala"></asp:ListItem>
+                      <asp:ListItem  Enabled="true" Text="Tamilnadu" Value="Tamilnadu"></asp:ListItem>
+                      <asp:ListItem  Enabled="true" Text="Karnataka" Value="Karnataka"></asp:ListItem>
+                  </asp:DropDownList>
+             </div>
+
+             <div class="form-group">
+                <label>Zipcode</label>
+                <asp:TextBox ID="zip" runat="server" ClientIDMode="Static"/>
+             </div>
+
+            <div class="form-group">
+                <label>Phone</label>
+                <asp:TextBox ID="phone" runat="server" ClientIDMode="Static"/>
+            </div>
+
+            <div class="form-group">
+                <label>Mobile</label>
+                <asp:TextBox ID="mobile" TextMode="Number" MaxLength="10" runat="server" ClientIDMode="Static"/>
+            </div>
+            <br/>
+            <br/>
+            <div class="form-group">
+                <asp:Button ID="bntcancel" Text="Cancel" OnClick="btnCancel_Click" OnClientClick="this.form.reset(); return false;" runat="server" CssClass="btn" Style ="background:red;"/>
+                <asp:Button ID="btnSubmit" Text="Register" OnClick="btnSubmit_Click"  runat="server" CssClass="btn" />
+                <br />
+                <br />
+                <asp:Label ID="lblError" runat="server" Text="" ForeColor="Red" Visible="false" CssClass="error"></asp:Label>
+            </div>
+            <br/>
+       </form>
+    </asp:Content>
