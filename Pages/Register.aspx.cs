@@ -31,18 +31,8 @@ namespace MyWebApp
 
 
             var type = InputIdentifier.Identify(txtusername.Text);
-            string email = null;
-            string logPhone = null;
 
-            if(type == InputIdentifier.InputType.Email)
-            {
-                email = txtusername.Text.ToLower();
-            }
-            else if(type == InputIdentifier.InputType.Phone)
-            {
-                logPhone = txtusername.Text;
-            }
-            else
+            if(InputIdentifier.InputType.Invalid == type)
             {
                 ShowError("Invalid Email or Phone Number format.");
                 return;
@@ -75,23 +65,41 @@ namespace MyWebApp
                 return;
             }
 
+            int parsedZip;
+            if (!int.TryParse(zip.Text, out parsedZip))
+            {
+                ShowError("Zipcode must be a valid number.");
+                return;
+            }
+
+            int age;
+            if (!int.TryParse(txtAge.Text, out age))
+            {
+                ShowError("Zipcode must be a valid number.");
+                return;
+            }
+
+            bool genderBit = (rblGender.SelectedValue.ToLower() == "male" || rblGender.SelectedValue == "0");
+
             string securePass = BCrypt.Net.BCrypt.HashPassword(password.Text);
+
+          
 
 
             SqlParameter[] sp = new SqlParameter[]
             {
-                new SqlParameter("@email",(object)email??DBNull.Value),
-                new SqlParameter("@login_phone",(object)logPhone??DBNull.Value),
+                new SqlParameter("@username",txtusername.Text),
                 new SqlParameter("@hashed_password",securePass),
                 new SqlParameter("@first_name",fn.Text),
                 new SqlParameter("@last_name",ln.Text),
                 new SqlParameter("@display_name",string.IsNullOrEmpty(dn.Text) ? (object)DBNull.Value : dn.Text),
                 new SqlParameter("@date_of_birth",parsedDOB),
-                new SqlParameter("@gender",rblGender.SelectedValue),
+                new SqlParameter("@age",age),
+                new SqlParameter("@gender",genderBit),
                 new SqlParameter("@address",address.Text),
                 new SqlParameter("@city",ddlCity.SelectedValue),
                 new SqlParameter("@state",ddlState.SelectedValue),
-                new SqlParameter("@zipcode",zip.Text),
+                new SqlParameter("@zipcode",parsedZip),
                 new SqlParameter("@phone", string.IsNullOrEmpty(phone.Text) ? (object)DBNull.Value :phone.Text),
                 new SqlParameter("@mobile", string.IsNullOrEmpty(mobile.Text) ? (object)DBNull.Value : mobile.Text),
             };
@@ -115,8 +123,6 @@ namespace MyWebApp
                         else if (resultCode == 1)
                         {
                             ShowSuccess(message);
-                            Response.Redirect("Login.aspx");
-                            Context.ApplicationInstance.CompleteRequest();
                         }
                     }
                 }
@@ -137,16 +143,18 @@ namespace MyWebApp
 
         private void ShowError(string message)
         {
-            lblError.Text = message;
-            lblError.Visible = true;
-            
+            string safeMessage = System.Web.HttpUtility.JavaScriptStringEncode(message);
+
+            string script = $"alert('{safeMessage}');";
+
+            ClientScript.RegisterStartupScript(this.GetType(), "ErrorPopup", script, true);
         }
 
         private void ShowSuccess(string message)
         {
-            lblError.Text = message;
-            lblError.Visible = true;
-
+            string safeMessage = System.Web.HttpUtility.JavaScriptStringEncode(message);
+            string script = $"alert('{safeMessage}');";
+            ClientScript.RegisterStartupScript(this.GetType(), "SuccessPopup", script, true);
         }
 
 

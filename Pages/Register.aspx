@@ -60,8 +60,8 @@
               <div class="form-group">
                    <label>Gender</label>
                    <asp:RadioButtonList ID="rblGender" runat="server" ClientIDMode="Static" RepeatLayout="Flow" RepeatDirection="Horizontal">
-                     <asp:ListItem Text="Male" Value="M" Selected="True"></asp:ListItem>
-                     <asp:ListItem Text="Female" Value="F"></asp:ListItem>
+                     <asp:ListItem Text="Male" Value="0" Selected="True"></asp:ListItem>
+                     <asp:ListItem Text="Female" Value="1"></asp:ListItem>
                    </asp:RadioButtonList>
               </div>
 

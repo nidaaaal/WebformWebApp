@@ -9,14 +9,10 @@ namespace MyApp.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Guid Id { get; set; }
+        public int Id { get; set; }
 
         [MaxLength(255)]
-        public string Email { get; set; } = null;
-
-        [Column("login_phone")]
-        [MaxLength(10)]
-        public string LoginPhone { get; set; } = null;
+        public string UserName { get; set; }
 
         [Column("hashed_password")]
         [Required]

@@ -24,18 +24,8 @@ namespace MyWebApp
         protected async void btnLogin_Click(object sender, EventArgs e_)
         {
             var type = InputIdentifier.Identify(txtUsername.Text);
-            string phone = null;
-            string email = null;
 
-            if (type == InputIdentifier.InputType.Phone)
-            {
-                phone = txtUsername.Text;
-            }
-            else if(type == InputIdentifier.InputType.Email)
-            {
-                email = txtUsername.Text;
-            }
-            else
+            if (type == InputIdentifier.InputType.Invalid)
             {
                 ShowError("Invalid Email or Phone Number format.");
 
@@ -48,16 +38,17 @@ namespace MyWebApp
             {
                 using (var conn = DbHelper.CreateConnection())
                 {
-                    string sql = "SELECT * FROM auth.credentials WHERE (email IS NOT NULL AND email = @email) OR (login_phone IS NOT NULL AND login_phone = @login_phone)";
+                    string sql = "SELECT id,username,hashed_password FROM auth.credentials WHERE username = @username";
 
                    await conn.OpenAsync();
 
-                    using (SqlCommand command = new SqlCommand(sql, conn))
+                    Credential credential = new Credential();
+
+
+                    using (SqlCommand command =  new SqlCommand(sql, conn))
                     {
 
-                        command.Parameters.AddWithValue("@email", (object)email ?? DBNull.Value);
-
-                        command.Parameters.AddWithValue("@login_phone", (object)phone ?? DBNull.Value);
+                        command.Parameters.AddWithValue("@username", txtUsername.Text);
 
                         using (SqlDataReader read = await command.ExecuteReaderAsync())
                         {
@@ -69,31 +60,36 @@ namespace MyWebApp
                             }
 
 
-                            Credential credential = new Credential();
 
                             while (await read.ReadAsync())
                             {
-                                credential.Id = (Guid)read["id"];
-                                credential.Email = read["email"] == DBNull.Value ? null : (string)read["email"];
-                                credential.LoginPhone = read["login_phone"] == DBNull.Value ? null : (string)read["login_phone"];
+                                credential.Id = (int)read["id"];
+                                credential.UserName = Convert.ToString(read["username"]);
                                 credential.HashedPassword = Convert.ToString(read["hashed_password"]);
                             }
 
-                            bool validate = BCrypt.Net.BCrypt.Verify(textPassword.Text, credential.HashedPassword);
-
-                            if (validate)
-                            {
-                                ShowSuccess("Login successfull");
-                                Response.Redirect("Dashboard.aspx");
-                                Context.ApplicationInstance.CompleteRequest();
-
-                            }
-                            else
-                            {
-                                ShowError("invalid credentials!");
-
-                            }
                         }
+
+                        if (credential == null || !BCrypt.Net.BCrypt.Verify(textPassword.Text, credential.HashedPassword))
+                        {
+                            ShowError("Invalid Username or Password.");
+                            return;
+                        }
+
+                            DateTime now = DateTime.Now;
+                            string newsql = "UPDATE auth.credentials SET login_at = @now WHERE id = @id;";
+
+                            using (SqlCommand newcmd = new SqlCommand(newsql, conn))
+                            {
+                                newcmd.Parameters.AddWithValue("@now",now);
+                                newcmd.Parameters.AddWithValue("@id",credential.Id);
+
+                                await newcmd.ExecuteNonQueryAsync();
+                            
+
+                                ShowSuccess("Login successfull");
+                            }
+                    
                     }
                 }
             }
@@ -111,14 +107,18 @@ namespace MyWebApp
 
         private void ShowError(string message)
         {
-            lblError.Text = message;
-            lblError.Visible = true;
+            string safeMessage = HttpUtility.JavaScriptStringEncode(message);
+
+            string script = $"alert('{safeMessage}');";
+
+            ClientScript.RegisterStartupScript(this.GetType(), "ErrorPopup", script, true);
         }
+
         private void ShowSuccess(string message)
         {
-            lblError.Text = message;
-            lblError.Visible = true;
-
+            string safeMessage = HttpUtility.JavaScriptStringEncode(message);
+            string script = $"alert('{safeMessage}');";
+            ClientScript.RegisterStartupScript(this.GetType(), "SuccessPopup", script, true);
         }
     }
 }

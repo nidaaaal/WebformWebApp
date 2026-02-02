@@ -22,26 +22,44 @@
         const month = parseInt($('#ddlMonth').val());
         const year = parseInt($('#ddlYear').val());
 
-        if (day === 0 || month === 0 || year === 0) return false;
+        if (isNaN(day) || isNaN(month) || isNaN(year) || day === 0 || month === 0 || year === 0) return false;
+
         const date = new Date(year, month - 1, day);
-        return (date.getFullYear() === year && date.getMonth() === month - 1 && date.getDate() === day)
-    }, "Please choose a valid Date of Birth.");
+        const today = new Date();
+
+        today.setHours(0, 0, 0, 0);
+
+        if (date > today) {
+            return false;
+        }
+
+        return (date.getFullYear() === year && date.getMonth() === month - 1 && date.getDate() === day);
+
+    }, "Date cannot be in the future or invalid.");
 
     $('#ddlDay, #ddlMonth, #ddlYear').change(function () {
         const day = parseInt($('#ddlDay').val());
         const month = parseInt($('#ddlMonth').val());
         const year = parseInt($('#ddlYear').val());
 
+        if (isNaN(day) || isNaN(month) || isNaN(year) || day === 0 || month === 0 || year === 0) return false;
+
         if (day > 0 && month > 0 && year > 0) {
 
             const today = new Date();
             let dob = new Date(year, month - 1, day);
+
 
             if (dob.getFullYear() === year && dob.getMonth() === month - 1) {
 
                 let age = today.getFullYear() - dob.getFullYear();
 
                 const m = today.getMonth() - dob.getMonth();
+
+                if (dob > today) {
+                    $('#txtAge').val('');
+                    return;
+                }
 
                 if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) {
                     age--;
