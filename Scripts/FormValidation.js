@@ -60,8 +60,6 @@
     let validate = $('#form2').validate({
         errorClass: "error",
         errorElement: "span",
-
-
     });
 
 
@@ -97,8 +95,4 @@
         checkDate: true,
         messages: { checkDate: "Please choose a valid Date of Birth." }
     });
-
-   
-
-
 });

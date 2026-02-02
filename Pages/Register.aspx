@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" EnableEventValidation="false" AutoEventWireup="true" MasterPageFile="~/MasterPages/Site.Master" CodeBehind="Register.aspx.cs" Inherits="MyWebApp.Register" %>
+﻿<%@ Page Language="C#" Async="true" EnableEventValidation="false" AutoEventWireup="true" MasterPageFile="~/MasterPages/Site.Master" CodeBehind="Register.aspx.cs" Inherits="MyWebApp.Register" %>
 
 <asp:Content ID="reg" ContentPlaceHolderID="MainContent" runat="server">
 
@@ -12,12 +12,12 @@
 
                 <div class="form-group">
                     <label>Password</label>
-                    <asp:TextBox ID ="password"  TextMode="Password" runat="server" ClientIDMode="Static"/>
+                    <asp:TextBox ID ="password" TextMode="Password" runat="server" ClientIDMode="Static"/>
                 </div>
 
                 <div class="form-group">
                     <label>Confirm Password</label>
-                    <asp:TextBox ID ="cnfrmpass"  TextMode="Password" runat="server" ClientIDMode="Static"/>
+                    <asp:TextBox ID ="cnfrmpass" TextMode="Password" runat="server" ClientIDMode="Static"/>
                 </div>
 
                 <h3>Personal Information</h3>
@@ -34,7 +34,7 @@
 
                 <div class="form-group">
                     <label>Display Name</label>
-                    <asp:TextBox ID ="dn" runat="server"/>
+                    <asp:TextBox ID ="dn" runat="server" ClientIDMode="Static"/>
                   </div>
 
                 <div class="form-group">
@@ -107,7 +107,9 @@
             <br/>
             <div class="line">
                 <asp:Button ID="bntcancel" Text="Cancel" OnClick="btnCancel_Click" OnClientClick="this.form.reset(); return false;" runat="server" CssClass="btn"/>
-                <asp:Button ID="btnSubmit" Text="Register" OnClick="btnSubmit_Click"  runat="server" CssClass="btn" OnClientClick="return $('#form2').valid();"/>
+                <asp:Button ID="btnSubmit" Text="Register" OnClick="btnSubmit_Click"  runat="server" CssClass="btn" />
+
+
                 <br />
                 <br />
                 <asp:Label ID="lblError" runat="server" Text="" ForeColor="Red" Visible="false" CssClass="error"></asp:Label>

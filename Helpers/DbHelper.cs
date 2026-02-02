@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Data;
+using System.Threading.Tasks;
 
 
 namespace Login.Helpers
@@ -11,7 +12,7 @@ namespace Login.Helpers
     {
         private static string _connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
 
-        public static SqlDataReader ExecuteSp(string spName, SqlParameter[] sqlParameters)
+        public static async Task<SqlDataReader> ExecuteSp(string spName, SqlParameter[] sqlParameters)
         {
             SqlConnection conn = new SqlConnection(_connectionString);
 
@@ -25,9 +26,9 @@ namespace Login.Helpers
                     cmd.Parameters.AddRange(sqlParameters);
                 }
 
-                 conn.Open();
+                await conn.OpenAsync().ConfigureAwait(false);
 
-                return  cmd.ExecuteReader(CommandBehavior.CloseConnection);
+                return await  cmd.ExecuteReaderAsync(CommandBehavior.CloseConnection).ConfigureAwait(false);
             }
             catch
             {

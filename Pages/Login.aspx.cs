@@ -21,7 +21,7 @@ namespace MyWebApp
 
 
         }
-        protected void btnLogin_Click(object sender, EventArgs e_)
+        protected async void btnLogin_Click(object sender, EventArgs e_)
         {
             var type = InputIdentifier.Identify(txtUsername.Text);
             string phone = null;
@@ -50,7 +50,7 @@ namespace MyWebApp
                 {
                     string sql = "SELECT * FROM auth.credentials WHERE (email IS NOT NULL AND email = @email) OR (login_phone IS NOT NULL AND login_phone = @login_phone)";
 
-                    conn.Open();
+                   await conn.OpenAsync();
 
                     using (SqlCommand command = new SqlCommand(sql, conn))
                     {
@@ -59,7 +59,7 @@ namespace MyWebApp
 
                         command.Parameters.AddWithValue("@login_phone", (object)phone ?? DBNull.Value);
 
-                        using (SqlDataReader read = command.ExecuteReader())
+                        using (SqlDataReader read = await command.ExecuteReaderAsync())
                         {
 
                             if (!read.HasRows)
@@ -71,7 +71,7 @@ namespace MyWebApp
 
                             Credential credential = new Credential();
 
-                            while (read.Read())
+                            while (await read.ReadAsync())
                             {
                                 credential.Id = (Guid)read["id"];
                                 credential.Email = read["email"] == DBNull.Value ? null : (string)read["email"];
@@ -84,6 +84,8 @@ namespace MyWebApp
                             if (validate)
                             {
                                 ShowSuccess("Login successfull");
+                                Response.Redirect("Dashboard.aspx");
+                                Context.ApplicationInstance.CompleteRequest();
 
                             }
                             else
@@ -116,7 +118,6 @@ namespace MyWebApp
         {
             lblError.Text = message;
             lblError.Visible = true;
-            lblError.BackColor = System.Drawing.Color.Green;
 
         }
     }

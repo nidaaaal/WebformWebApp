@@ -11,23 +11,24 @@ namespace MyWebApp
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-          
+            
+
         }
 
-        protected void btnSubmit_Click(object sender,EventArgs e)
+        protected async void btnSubmit_Click(object sender,EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtusername.Text) ||
-         string.IsNullOrWhiteSpace(password.Text) ||
-         string.IsNullOrWhiteSpace(fn.Text) ||      
-         string.IsNullOrWhiteSpace(ln.Text) ||       
-         string.IsNullOrWhiteSpace(address.Text) ||
-         string.IsNullOrWhiteSpace(zip.Text) ||
-         string.IsNullOrWhiteSpace(phone.Text))
+        string.IsNullOrWhiteSpace(password.Text) ||
+        string.IsNullOrWhiteSpace(fn.Text) ||
+        string.IsNullOrWhiteSpace(ln.Text) ||
+        string.IsNullOrWhiteSpace(address.Text) ||
+        string.IsNullOrWhiteSpace(zip.Text) ||
+        string.IsNullOrWhiteSpace(phone.Text))
             {
                 ShowError("Please fill all required fields.");
                 return;
             }
-            string securePass = BCrypt.Net.BCrypt.HashPassword(password.Text);
+
 
             var type = InputIdentifier.Identify(txtusername.Text);
             string email = null;
@@ -74,6 +75,7 @@ namespace MyWebApp
                 return;
             }
 
+            string securePass = BCrypt.Net.BCrypt.HashPassword(password.Text);
 
 
             SqlParameter[] sp = new SqlParameter[]
@@ -96,12 +98,16 @@ namespace MyWebApp
 
             try
             {
-                using (SqlDataReader reader = DbHelper.ExecuteSp("register_user", sp))
+                using (SqlDataReader reader = await DbHelper.ExecuteSp("auth.register_user", sp))
                 {
-                    if (reader.Read())
+                    if (await reader.ReadAsync())
                     {
                         int resultCode = Convert.ToInt32(reader["ResultCode"]);
                         string message = reader["Message"].ToString();
+
+                        System.Diagnostics.Debug.WriteLine(message);
+
+
                         if (resultCode == -1)
                         {
                             ShowError("Email or phone number already linked with Another Account !");
@@ -110,7 +116,7 @@ namespace MyWebApp
                         {
                             ShowSuccess(message);
                             Response.Redirect("Login.aspx");
-
+                            Context.ApplicationInstance.CompleteRequest();
                         }
                     }
                 }
