@@ -6,6 +6,11 @@
             /^\d{10}$/.test(value);
     }, "Enter valid email or phone");
 
+    $.validator.addMethod("strongPassword", function (value, element) {
+        return this.optional(element) ||
+            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(value);
+    }, "Password must contain at least 8 characters, one uppercase, one lowercase, one number and one special character.");
+
     for (let i = 1; i <= 31; i++) {
         $('#ddlDay').append($('<option>', { value: i, text: i }));
     }
@@ -90,7 +95,7 @@
 
     $("#password").rules("add", {
         required: true,
-        minlength: 6
+        strongPassword: true
     });
 
     $("#cnfrmpass").rules("add", {

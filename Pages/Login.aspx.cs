@@ -85,6 +85,8 @@ namespace MyWebApp
                                 newcmd.Parameters.AddWithValue("@id",credential.Id);
 
                                 await newcmd.ExecuteNonQueryAsync();
+
+                                Session["user_id"] = credential.Id;
                             
 
                                 ShowSuccess("Login successfull");

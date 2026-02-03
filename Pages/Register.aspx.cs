@@ -2,6 +2,7 @@
 using MyWebApp.Helpers;
 using System;
 using System.Data.SqlClient;
+using System.Web.UI.WebControls;
 
 
 namespace MyWebApp
@@ -122,7 +123,7 @@ namespace MyWebApp
                         }
                         else if (resultCode == 1)
                         {
-                            ShowSuccess(message);
+                            ShowSuccess("Account Created Sucessfully");
                         }
                     }
                 }
@@ -135,9 +136,49 @@ namespace MyWebApp
 
 
         }
-
-        protected void btnCancel_Click(object sender, EventArgs e)
+        protected void ddlsate_Selection(object sender, EventArgs e)
         {
+            ddlCity.Items.Clear();
+            string selectedState = ddlState.SelectedValue;
+
+            if (selectedState == "Kerala")
+            {
+                ddlCity.Items.Add(new ListItem("Calicut", "calicut"));
+                ddlCity.Items.Add(new ListItem("Kochi", "kochi"));
+                ddlCity.Items.Add(new ListItem("Trivandrum", "trivandrum"));
+                ddlCity.Items.Add(new ListItem("Thrissur", "thrissur"));
+                ddlCity.Items.Add(new ListItem("Kannur", "kannur"));
+                ddlCity.Items.Add(new ListItem("Malappuram", "malappuram"));
+                ddlCity.Items.Add(new ListItem("Kollam", "kollam"));
+                ddlCity.Items.Add(new ListItem("Alappuzha", "alappuzha"));
+            }
+            else if (selectedState == "Tamilnadu")
+            {
+                ddlCity.Items.Add(new ListItem("Chennai", "chennai"));
+                ddlCity.Items.Add(new ListItem("Madurai", "madurai"));
+                ddlCity.Items.Add(new ListItem("Coimbatore", "coimbatore"));
+                ddlCity.Items.Add(new ListItem("Salem", "salem"));
+                ddlCity.Items.Add(new ListItem("Tiruchirappalli", "trichy"));
+                ddlCity.Items.Add(new ListItem("Tirunelveli", "tirunelveli"));
+                ddlCity.Items.Add(new ListItem("Vellore", "vellore"));
+                ddlCity.Items.Add(new ListItem("Erode", "erode"));
+            }
+            else if (selectedState == "Karnataka")
+            {
+                ddlCity.Items.Add(new ListItem("Bangalore ", "bangalore"));
+                ddlCity.Items.Add(new ListItem("Mysore", "mysore"));
+                ddlCity.Items.Add(new ListItem("Mangalore", "mangalore"));
+                ddlCity.Items.Add(new ListItem("Hubli", "hubli"));
+                ddlCity.Items.Add(new ListItem("Belgaum", "belgaum"));
+                ddlCity.Items.Add(new ListItem("Shivamogga", "shimoga"));
+                ddlCity.Items.Add(new ListItem("Tumakuru", "tumkur"));
+                ddlCity.Items.Add(new ListItem("Udupi", "udupi"));
+            }
+            else
+            {
+                ddlCity.Items.Add(new ListItem("-- Select State First --", ""));
+            }
+
 
         }
 
@@ -157,6 +198,6 @@ namespace MyWebApp
             ClientScript.RegisterStartupScript(this.GetType(), "SuccessPopup", script, true);
         }
 
-
+       
     }
 }

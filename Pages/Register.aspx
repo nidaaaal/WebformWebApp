@@ -71,23 +71,22 @@
               </div>
 
               <div class="form-group">
-                   <label>City</label>
-                   <asp:DropDownList ID="ddlCity" runat="server" CssClass="form-control" ClientIDMode="Static">
-                       <asp:ListItem Selected="True" Enabled="true" Text="calicut" Value="calicut"></asp:ListItem>
-                       <asp:ListItem  Enabled="true" Text="kochi" Value="kochi"> </asp:ListItem>
-                       <asp:ListItem Enabled="true" Text="madurai" Value="madurai"></asp:ListItem>
-                       <asp:ListItem  Enabled="true" Text="bangalur" Value="bangalur"></asp:ListItem>
-                   </asp:DropDownList>
+                   <label>State</label>
+                   <asp:DropDownList ID="ddlState" runat="server" CssClass="form-control" 
+                       ClientIDMode="Static" AutoPostBack="true" OnSelectedIndexChanged="ddlsate_Selection">
+                       <asp:ListItem  Text="-- Select State --" Value="" Selected="True"></asp:ListItem>
+                       <asp:ListItem  Text="Kerala" Value="Kerala"></asp:ListItem>
+                       <asp:ListItem  Text="Tamilnadu" Value="Tamilnadu"></asp:ListItem>
+                       <asp:ListItem  Text="Karnataka" Value="Karnataka"></asp:ListItem>
+                  </asp:DropDownList>
               </div>
 
               <div class="form-group">
-                   <label>State</label>
-                   <asp:DropDownList ID="ddlState" runat="server" CssClass="form-control" ClientIDMode="Static">
-                      <asp:ListItem Selected="True" Enabled="true" Text="Kerala" Value="Kerala"></asp:ListItem>
-                      <asp:ListItem  Enabled="true" Text="Tamilnadu" Value="Tamilnadu"></asp:ListItem>
-                      <asp:ListItem  Enabled="true" Text="Karnataka" Value="Karnataka"></asp:ListItem>
-                  </asp:DropDownList>
-             </div>
+                   <label>City</label>
+                   <asp:DropDownList ID="ddlCity" runat="server" CssClass="form-control" ClientIDMode="Static">
+                      <asp:ListItem Text="-- Select State First --" Value=""></asp:ListItem>
+                   </asp:DropDownList>
+              </div>
 
              <div class="form-group">
                 <label>Zipcode</label>
@@ -106,7 +105,7 @@
             <br/>
             <br/>
             <div class="line">
-                <asp:Button ID="bntcancel" Text="Cancel" OnClick="btnCancel_Click" OnClientClick="this.form.reset(); return false;" runat="server" CssClass="btn"/>
+                <asp:Button ID="bntcancel" Text="Cancel" OnClientClick="this.form.reset(); return false;" runat="server" CssClass="btn"/>
                 <asp:Button ID="btnSubmit" Text="Register" OnClick="btnSubmit_Click"  runat="server" CssClass="btn" />
 
 
