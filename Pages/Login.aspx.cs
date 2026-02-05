@@ -5,8 +5,10 @@ using MyWebApp.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
+using System.Web.Http.Results;
 using System.Web.Routing;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -86,11 +88,13 @@ namespace MyWebApp
 
                                 await newcmd.ExecuteNonQueryAsync();
 
-                                Session["user_id"] = credential.Id;
+                                Session["userId"] = credential.Id;
                             
-
                                 ShowSuccess("Login successfull");
-                            }
+                                Response.Redirect("UserProfile.aspx", false);
+                                Context.ApplicationInstance.CompleteRequest();
+
+                        }
                     
                     }
                 }

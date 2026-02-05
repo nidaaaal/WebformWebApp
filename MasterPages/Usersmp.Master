@@ -1,0 +1,28 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Usersmp.master.cs" Inherits="MyWebApp.MasterPages.Usersmp" %>
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+    <title>Booking App</title>
+    <link href="../Content/css/site.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
+    <script src="../Scripts/FormValidation.js"></script>
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="formup" runat="server">
+     <nav class="cn">
+        <a href="Dashboard.aspx" ><img src="../Content/images/booking logo.png" class="logo"/> </a>
+        <p class="tittle" id="profilename" runat="server"></p>
+        <asp:Button Id="logout" Type="button" Text="Logout" CssClass="btn" runat="server" OnClientClick="btn_logout" OnClick="logout_Click"/>
+    </nav>
+            <main class="containerup">
+            <asp:ContentPlaceHolder ID="usercontent" runat="server">
+            </asp:ContentPlaceHolder>
+            </main>
+        </form>
+</body>
+</html>
