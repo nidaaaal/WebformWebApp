@@ -1,121 +1,85 @@
 ﻿$(document).ready(function () {
+    if ($('#form2').length > 0) {
 
-    $.validator.addMethod("emailOrPhone", function (value, element) {
-        return this.optional(element) ||
-            /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/.test(value) ||
-            /^\d{10}$/.test(value);
-    }, "Enter valid email or phone");
+        $.validator.addMethod("emailOrPhone", function (value, element) {
+            return this.optional(element) ||
+                /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/.test(value) ||
+                /^\d{10}$/.test(value);
+        }, "Enter valid email or phone");
 
-    $.validator.addMethod("strongPassword", function (value, element) {
-        return this.optional(element) ||
-            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(value);
-    }, "Password must contain at least 8 characters, one uppercase, one lowercase, one number and one special character.");
+        $.validator.addMethod("strongPassword", function (value, element) {
+            return this.optional(element) ||
+                /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(value);
+        }, "Password must contain at least 8 characters, one uppercase, one lowercase, one number and one special character.");
 
-    for (let i = 1; i <= 31; i++) {
-        $('#ddlDay').append($('<option>', { value: i, text: i }));
-    }
-    for (let j = 1; j <= 12; j++) {
-        $('#ddlMonth').append($('<option>', { value: j, text: j }));
-    }
-    const currentYear = new Date().getFullYear();
-    for (let k = currentYear; k >= 1900; k--) {
-        $('#ddlYear').append($('<option>', { value: k, text: k }));
-    }
-
-    $.validator.addMethod("checkDate", function (value, element) {
-        const day = parseInt($('#ddlDay').val());
-        const month = parseInt($('#ddlMonth').val());
-        const year = parseInt($('#ddlYear').val());
-
-        if (isNaN(day) || isNaN(month) || isNaN(year) || day === 0 || month === 0 || year === 0) return false;
-
-        const date = new Date(year, month - 1, day);
-        const today = new Date();
-
-        today.setHours(0, 0, 0, 0);
-
-        if (date > today) {
-            return false;
+        for (let i = 1; i <= 31; i++) {
+            $('#ddlDay').append($('<option>', { value: i, text: i }));
+        }
+        for (let j = 1; j <= 12; j++) {
+            $('#ddlMonth').append($('<option>', { value: j, text: j }));
+        }
+        const currentYear = new Date().getFullYear();
+        for (let k = currentYear; k >= 1900; k--) {
+            $('#ddlYear').append($('<option>', { value: k, text: k }));
         }
 
-        return (date.getFullYear() === year && date.getMonth() === month - 1 && date.getDate() === day);
+        $.validator.addMethod("checkDate", function (value, element) {
+            const day = parseInt($('#ddlDay').val());
+            const month = parseInt($('#ddlMonth').val());
+            const year = parseInt($('#ddlYear').val());
 
-    }, "Date cannot be in the future or invalid.");
+            if (isNaN(day) || isNaN(month) || isNaN(year) || day === 0 || month === 0 || year === 0) return false;
 
-    $('#ddlDay, #ddlMonth, #ddlYear').change(function () {
-        const day = parseInt($('#ddlDay').val());
-        const month = parseInt($('#ddlMonth').val());
-        const year = parseInt($('#ddlYear').val());
-
-        if (isNaN(day) || isNaN(month) || isNaN(year) || day === 0 || month === 0 || year === 0) return false;
-
-        if (day > 0 && month > 0 && year > 0) {
-
+            const date = new Date(year, month - 1, day);
             const today = new Date();
-            let dob = new Date(year, month - 1, day);
 
+            today.setHours(0, 0, 0, 0);
 
-            if (dob.getFullYear() === year && dob.getMonth() === month - 1) {
-
-                let age = today.getFullYear() - dob.getFullYear();
-
-                const m = today.getMonth() - dob.getMonth();
-
-                if (dob > today) {
-                    $('#txtAge').val('');
-                    return;
-                }
-
-                if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) {
-                    age--;
-
-                }
-                $('#txtAge').val(age)
+            if (date > today) {
+                return false;
             }
-            else {
-                $('#txtAge').val('');
-            }
-        }
-    });
+
+            return (date.getFullYear() === year && date.getMonth() === month - 1 && date.getDate() === day);
+
+        }, "Date cannot be in the future or invalid.");
+
+        let validate = $('#form2').validate({
+            errorClass: "error",
+            errorElement: "span",
+        })
 
 
+        $("#txtusername").rules("add", {
+            required: true,
+            emailOrPhone: true,
+            messages: { emailOrPhone: "Input value should be valid phone number or Email" }
+        });
 
-    let validate = $('#form2').validate({
-        errorClass: "error",
-        errorElement: "span",
-    });
+        $("#password").rules("add", {
+            required: true,
+            strongPassword: true
+        });
 
+        $("#cnfrmpass").rules("add", {
+            required: true,
+            equalTo: "#password",
+            messages: { equalTo: "Passwords do not match" }
+        });
 
+        $("#fn").rules("add", { required: true, minlength: 3, maxlength: 50 });
+        $("#ln").rules("add", { required: true, maxlength: 50 });
+        $("#dn").rules("add", { maxlength: 50 });
 
-    $("#txtusername").rules("add", {
-        required: true,
-        emailOrPhone: true,
-        messages: { emailOrPhone: "Input value should be valid phone number or Email" }
-    });
+        $("#address").rules("add", { required: true, minlength: 10, maxlength: 255 });
 
-    $("#password").rules("add", {
-        required: true,
-        strongPassword: true
-    });
+        $("#zip").rules("add", { required: true, digits: true, maxlength: 6, minlength: 6 });
+        $("#phone").rules("add", { required: true, digits: true, maxlength: 10, minlength: 10 });
+        $("#mobile").rules("add", { digits: true, maxlength: 10, minlength: 10 });
 
-    $("#cnfrmpass").rules("add", {
-        required: true,
-        equalTo: "#password",
-        messages: { equalTo: "Passwords do not match" }
-    });
-
-    $("#fn").rules("add", { required: true, minlength: 3, maxlength: 50 });
-    $("#ln").rules("add", { required: true, maxlength: 50 });
-    $("#dn").rules("add", { maxlength: 50 });
-
-    $("#address").rules("add", { required: true, minlength: 10, maxlength: 255 });
-
-    $("#zip").rules("add", { required: true, digits: true, maxlength: 6, minlength: 6 });
-    $("#phone").rules("add", { required: true, digits: true, maxlength: 10, minlength: 10 });
-    $("#mobile").rules("add", { digits: true, maxlength: 10, minlength: 10 });
-
-    $("#ddlYear").rules("add", {
-        checkDate: true,
-        messages: { checkDate: "Please choose a valid Date of Birth." }
-    });
+        $("#ddlYear").rules("add", {
+            checkDate: true,
+            messages: { checkDate: "Please choose a valid Date of Birth." }
+        });
+    }
 });
+

@@ -3,6 +3,7 @@
 <asp:Content ID="reg" ContentPlaceHolderID="MainContent" runat="server">
 
         <form id="form2" runat="server">
+            <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
                 <h3>Create Your Account</h3>
                 
                 <div class="form-group">
@@ -70,6 +71,9 @@
                    <asp:TextBox ID ="address" TextMode="MultiLine" runat="server" ClientIDMode="Static"/>
               </div>
 
+            <asp:UpdatePanel runat="server">
+            <ContentTemplate>
+
               <div class="form-group">
                    <label>State</label>
                    <asp:DropDownList ID="ddlState" runat="server" CssClass="form-control" 
@@ -87,6 +91,8 @@
                       <asp:ListItem Text="-- Select State First --" Value=""></asp:ListItem>
                    </asp:DropDownList>
               </div>
+             </ContentTemplate>
+            </asp:UpdatePanel>
 
              <div class="form-group">
                 <label>Zipcode</label>

@@ -13,8 +13,10 @@
     </asp:ContentPlaceHolder>
 </head>
 <body>
-    <form id="formup" runat="server">
-     <nav class="cn">
+    <form id="formup" runat="server" ClientIDMode="Static">
+    <asp:ScriptManager ID="ScriptManager2" runat="server"></asp:ScriptManager>
+
+    <nav class="cn">
         <a href="Dashboard.aspx" ><img src="../Content/images/booking logo.png" class="logo"/> </a>
         <p class="tittle" id="profilename" runat="server"></p>
         <asp:Button Id="logout" Type="button" Text="Logout" CssClass="btn" runat="server" OnClientClick="btn_logout" OnClick="logout_Click"/>
